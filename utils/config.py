@@ -1,20 +1,22 @@
-import os
+from pathlib import Path
+
 
 def load_system_prompt():
-    """Load the system prompt from prompt.txt file."""
-    # TODO: Get the path to prompt.txt file in the directory
-    # TODO: Open and read the prompt file with proper encoding
-    # TODO: Return the content stripped of whitespace
-    # TODO: Handle FileNotFoundError with appropriate message: "prompt.txt file not found. Please ensure it exists in the solution directory"
-    # TODO: Handle other exceptions with appropriate message: "Error loading prompt.txt: {error_message}"
-    
-    pass
+    """Load the system prompt from the project-level prompt.txt file."""
+    prompt_path = Path(__file__).resolve().parent.parent / "prompt.txt"
+    try:
+        return prompt_path.read_text(encoding="utf-8").strip()
+    except FileNotFoundError as error:
+        raise FileNotFoundError(
+            "prompt.txt file not found. Please ensure it exists in the solution directory"
+        ) from error
+    except Exception as error:
+        raise RuntimeError(f"Error loading prompt.txt: {error}") from error
+
 
 def get_system_prompt():
     """Get the system prompt for the technical support assistant."""
-    # TODO: Call load_system_prompt function and return the result
-    
-    pass
+    return load_system_prompt()
 
-# Export the system prompt
+
 SYSTEM_PROMPT = get_system_prompt()
